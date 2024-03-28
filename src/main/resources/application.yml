@@ -1,0 +1,16 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      host: localhost
+      port: 27017
+      username: order-service
+      password: order-service
+      database: order-service
+aws:
+  access-key: 123secret
+  secret-key: 123secret
+  region: us-east-1
+  order-queue-name: order-sqs
+  dlq-queue-name: order-sqs-d
+  order-broker-endpoint: http://localhost:4566/

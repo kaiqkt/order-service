@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:3
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: "product-service"
+      MONGO_INITDB_ROOT_USERNAME: "product-service"
+      MONGO_INITDB_ROOT_PASSWORD: "product-service"
+    volumes:
+      - mongodb:/data/db
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+    environment:
+      - SERVICES=sqs
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_SECRET_ACCESS_KEY=123secret
+      - AWS_ACCESS_KEY_ID=123secret
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - "./localstack_data:/var/lib/localstack/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./init-localstack.sh:/etc/localstack/init/ready.d/init-localstack.sh"
+volumes:
+  mongodb:
+    driver: local
